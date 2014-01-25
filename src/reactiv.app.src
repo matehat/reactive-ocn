@@ -1,0 +1,14 @@
+{application, reactiv,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  folsom,
+                  cowboy
+                 ]},
+  {mod, { reactiv_app, []}},
+  {env, []}
+ ]}.
