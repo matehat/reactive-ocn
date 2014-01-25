@@ -1,0 +1,4 @@
+deps
+ebin
+rel/reactiv*
+!rel/reactiv*.tar.gz
