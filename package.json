@@ -1,1 +1,10 @@
-{}
+{
+    "name": "reactive-opencode",
+    "version": "0.1.0",
+    "homepage": "http://github.com/matehat/reactive-ocn/tree/node",
+    "main": "index.js",
+    "dependencies": {
+        "ws": "*",
+        "metrics": "*"
+    }
+}
