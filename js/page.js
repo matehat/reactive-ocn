@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var Connection = React.createClass({displayName: 'Connection',
     getInitialState: function () {
         return { delay: this.props.delay, updated: false };
@@ -19,7 +20,7 @@ var Connection = React.createClass({displayName: 'Connection',
     
     render: function() {
         return (
-            React.DOM.li( {className:""}, sprintf("%.1f", this.props.delay), React.DOM.span( {className:"units"}, "ms"))
+            React.DOM.li( {className:""}, sprintf("%.1f", this.props.delay),' ',React.DOM.span( {className:"units"}, "ms"))
         );
     }
 });
@@ -37,14 +38,14 @@ var Page = React.createClass({displayName: 'Page',
         var delays = [];
         setInterval(this.tick, 100);
         for (var i = 0; i < 100; i++) {
-            delays[i] = Math.random() * 9.99;
+            delays[i] = Math.random() * 9;
         }
         return { delays: delays }
     },
     tick: function() {
         var i = Math.floor((Math.random() * 99.9));
-        this.state.delays[i] = Math.random() * 9.99;
-        this.setState(this.state);
+        this.state.delays[i] = Math.random() * 9;
+        this.setState({});
     },
     sendCrash: function(event) {
         
