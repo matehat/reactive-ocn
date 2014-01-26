@@ -41,7 +41,7 @@ var Page = React.createClass({displayName: 'Page',
             delays[i] = Math.random() * 9;
         }
         
-        var statsWS = new WebSocket("ws://localhost:8080/stats");
+        var statsWS = new WebSocket("ws://33.33.33.11:8080/stats");
         statsWS.onmessage = this.receivedStats;
         
         return { 
@@ -59,7 +59,7 @@ var Page = React.createClass({displayName: 'Page',
             this.state.stats.memory = sprintf("%.2f", stats.value / 1048576);
             this.setState({});
         } else if (stats.stat_name == 'cpu') {
-            this.state.stats.cpu = sprintf("%.2f", stats.value * 10000 );
+            this.state.stats.cpu = sprintf("%.2f", stats.value);
             this.setState({});
         }
     },
