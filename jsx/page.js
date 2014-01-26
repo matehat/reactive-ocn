@@ -26,7 +26,7 @@ var Connection = React.createClass({
 var Statistic = React.createClass({
     render: function() {
         return (<div id="memory">
-            <span className="caption">{this.props.caption}</span>{' '}{this.props.value}
+            <span className="caption">{this.props.caption}</span>{' '}{this.props.value}{' '}
             <span className="units">{this.props.units}</span>
         </div>);
     }
@@ -60,12 +60,12 @@ var Page = React.createClass({
                         <a className="button" href="#" onClick={this.sendCrash}>Crash!</a>
                         <a className="button" href="#" onClick={this.switchEnvironment}>Erlang</a>
                     </div>
-                    <h1><strong>OpenCode</strong> Reactif</h1>
+                    <h1><strong>OpenCode</strong> Réactif</h1>
                     <div id="statistics">
                         <Statistic caption="Mém" value="47" units="MB" />
                         <Statistic caption="CPU" value="23" units="%" />
-                        <Statistic caption="Delai" value="23" units="ms" />
-                        <Statistic caption="Conn" value="23" units="" />
+                        <Statistic caption="Delai" value="1.2" units="ms" />
+                        <Statistic caption="Conn" value="1500" units="" />
                     </div>
                 </header>
                 <ul id="connections">

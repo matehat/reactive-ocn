@@ -26,7 +26,7 @@ var Connection = React.createClass({displayName: 'Connection',
 var Statistic = React.createClass({displayName: 'Statistic',
     render: function() {
         return (React.DOM.div( {id:"memory"}, 
-            React.DOM.span( {className:"caption"}, this.props.caption),' ',this.props.value,
+            React.DOM.span( {className:"caption"}, this.props.caption),' ',this.props.value,' ',
             React.DOM.span( {className:"units"}, this.props.units)
         ));
     }
@@ -60,12 +60,12 @@ var Page = React.createClass({displayName: 'Page',
                         React.DOM.a( {className:"button", href:"#", onClick:this.sendCrash}, "Crash!"),
                         React.DOM.a( {className:"button", href:"#", onClick:this.switchEnvironment}, "Erlang")
                     ),
-                    React.DOM.h1(null, React.DOM.strong(null, "OpenCode"), " Reactif"),
+                    React.DOM.h1(null, React.DOM.strong(null, "OpenCode"), " Réactif"),
                     React.DOM.div( {id:"statistics"}, 
                         Statistic( {caption:"Mém", value:"47", units:"MB"} ),
                         Statistic( {caption:"CPU", value:"23", units:"%"} ),
-                        Statistic( {caption:"Delai", value:"23", units:"ms"} ),
-                        Statistic( {caption:"Conn", value:"23", units:""} )
+                        Statistic( {caption:"Delai", value:"1.2", units:"ms"} ),
+                        Statistic( {caption:"Conn", value:"1500", units:""} )
                     )
                 ),
                 React.DOM.ul( {id:"connections"}, 

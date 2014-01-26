@@ -24,7 +24,7 @@ html, body {
     
     background-color: rgba(24,56,16,1);
     
-    background-image: gradient(linear, 
+    background-image: -webkit-gradient(linear, 
         20% top, 80% bottom, 
         from(rgba(185,255,185,0.2)), to(rgba(0,0,0,0.1)));
     
@@ -51,10 +51,6 @@ header h1 strong {
     text-transform: uppercase;
     letter-spacing: normal;
     font-weight: 400;
-}
-header #statistics {
-    width: 100%;
-    margin: 10px 0;
 }
 ul#connections li {
     background-color: rgba(255,255,255,0.6);
@@ -113,7 +109,9 @@ header .buttons .button:first-child {
     margin-right: 10px;
 }
 
-#statistics {
+header #statistics {
+    width: 100%;
+    margin: 10px 0;
     overflow: hidden;
 }
 #statistics div {
@@ -132,6 +130,7 @@ header .buttons .button:first-child {
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: 0.1em;
+    opacity: 0.6;
 }
 .units {
     font-size: 0.8em;
