@@ -29,12 +29,30 @@ html, body {
     background-image: -webkit-linear-gradient(top left, rgba(185,255,185,0.2), rgba(0,0,0,0.1));
     
     background-image: linear-gradient(to bottom right,
-        rgba(185,255,185,0.2), rgba(0,0,0,0.1));
+        rgba(185,255,185,0.15), rgba(0,0,0,0.1));
     
     background-attachment: fixed;
     height: 100%;
+    width: 100%;
     -webkit-transition: background-color 0.15s linear 0s;
     transition: background-color 0.15s linear 0s;
+}
+
+#background-noise {
+    position: fixed;
+    display: block;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    left: 0;
+    background-image: url(noise.png);
+    background-attachment: fixed;
+    z-index: 0;
+    opacity: 0.3;
+}
+#page {
+    z-index: 5;
+    position: relative;
 }
 
 body.animated { background-color: rgba(65,14,6,1); }
@@ -57,10 +75,7 @@ header h1 strong {
 }
 ul#connections li {
     float: left;
-    text-align: center;
-    padding: 0 5px;
-    margin: 0 0 10px;
-    font-size: 1.3em;
+    padding: 5px;
     cursor: pointer;
     
     -webkit-box-sizing: border-box;
@@ -81,6 +96,10 @@ ul#connections li article {
     border-radius: 4px;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+
+    font-size: 1.3em;
+    font-weight: 300;
+    text-align: center;
 }
 ul#connections li:active article {
     background-color: white;
@@ -128,23 +147,39 @@ header #statistics {
     margin: 10px 0;
     overflow: hidden;
 }
-#statistics div {
+header #statistics article {
+    overflow: hidden;
     float: left;
-    width: 23.5%;
-    margin-right: 2%;
+}
+header #statistics article section.value {
+    text-align: right;
     color: white;
     font-size: 1.5em;
     padding-top: 15px;
     border-top: 1px solid rgba(255,255,255,0.15);
 }
-#statistics div:last-child {
-    margin-right: 0%;
-}
-#statistics div .caption {
+header #statistics article .caption {
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: 0.1em;
     opacity: 0.6;
+    float: left;
+}
+header #statistics article section.graph {
+    display: block;
+    height: 100px;
+}
+header #statistics article section.graph div {
+    float: left;
+    box-sizing: border-box;
+    border-left: 1px solid transparent;
+    width: 8.3%;
+}
+header #statistics article section.graph div span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255,255,255,0.15);
 }
 .units {
     font-size: 0.8em;
@@ -174,8 +209,21 @@ header #statistics {
         height: 100%;
     }
     header {
-        margin: 102px auto 30px;
+        margin: 0 auto 30px;
         width: 90%;
+    }
+    body {
+        padding-top: 102px;
+    }
+    #statistics article {
+        width: 23.5%;
+        margin-right: 2%;
+    }
+    #statistics article:last-child {
+        margin-right: 0%;
+    }
+    #statistics article .caption {
+        float: left;
     }
     ul#connections {
         width: 90%;
@@ -198,6 +246,10 @@ header #statistics {
         width: 90%;
         margin: 42px auto 30px;
     }
+    #statistics article {
+        width: 48%;
+        margin: 10px 1%;
+    }
     ul#connections {
         width: 90%;
         margin: 0 auto;
@@ -207,10 +259,6 @@ header #statistics {
     ul#connections li {
         width: 25%;
     }
-    #statistics div .caption {
-        display: block;
-        margin-bottom: 5px;
-    }
     header .buttons {
         margin-top: 0;
     }
@@ -218,9 +266,6 @@ header #statistics {
 @media screen and (max-width: 480px) {
     ul#connections li {
         width: 33.3%;
-    }
-    #statistics div .caption {
-        display: block;
     }
     #statistics {
         font-size: 0.8em;
