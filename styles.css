@@ -24,9 +24,12 @@ html, body {
     
     background-color: rgba(24,56,16,1);
     
-    background-image: -webkit-gradient(linear, 
-        20% top, 80% bottom, 
-        from(rgba(185,255,185,0.2)), to(rgba(0,0,0,0.1)));
+    background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(185,255,185,0.2)), to(rgba(0,0,0,0.1)));
+    
+    background-image: -webkit-linear-gradient(top left, rgba(185,255,185,0.2), rgba(0,0,0,0.1));
+    
+    background-image: linear-gradient(to bottom right,
+        rgba(185,255,185,0.2), rgba(0,0,0,0.1));
     
     background-attachment: fixed;
     height: 100%;
