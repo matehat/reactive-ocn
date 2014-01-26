@@ -1,0 +1,224 @@
+/** * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/) * http://cssreset.com */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {	
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before,
+blockquote:after,
+q:before,
+q:after { content: ''; content: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+html, body {
+    font-family: "Helvetica Neue", Helvetica;
+    
+    background-color: rgba(24,56,16,1);
+    
+    background-image: gradient(linear, 
+        20% top, 80% bottom, 
+        from(rgba(185,255,185,0.2)), to(rgba(0,0,0,0.1)));
+    
+    background-attachment: fixed;
+    height: 100%;
+    -webkit-transition: background-color 0.15s linear 0s;
+    transition: background-color 0.15s linear 0s;
+}
+
+body.animated { background-color: rgba(65,14,6,1); }
+
+h1 {
+    font-size: 3.0em;
+}
+header h1 {
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 0.1em;
+    color: white;
+    margin-bottom: 20px;
+    /*border-bottom: 1px solid rgba(255,255,255,0.15);*/
+}
+header h1 strong {
+    text-transform: uppercase;
+    letter-spacing: normal;
+    font-weight: 400;
+}
+header #statistics {
+    width: 100%;
+    margin: 10px 0;
+}
+ul#connections li {
+    background-color: rgba(255,255,255,0.6);
+    float: left;
+    text-align: center;
+    padding: 20px 1%;
+    border-radius: 4px;
+    font-size: 1.3em;
+    
+    -webkit-transition-property: background-color;
+    
+    transition-property: background-color;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+ul#connections li:active {
+    background-color: white;
+    -webkit-transition-duration: 0.07s;
+    transition-duration: 0.07s;
+}
+
+a {
+    color: white;
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+}
+a.button {
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.15);
+    padding: 7px 10px;
+    display: inline-block;
+}
+a.button:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+a.button:active {
+    background-color: rgba(255,255,255,0.5);
+    position: relative;
+    top: 1px;
+}
+header .buttons {
+    float: right;
+    margin-top: 10px;
+}
+header .buttons .button:first-child {
+    margin-right: 10px;
+}
+
+#statistics {
+    overflow: hidden;
+}
+#statistics div {
+    float: left;
+    width: 23.5%;
+    margin-right: 2%;
+    color: white;
+    font-size: 1.5em;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+#statistics div:last-child {
+    margin-right: 0%;
+}
+#statistics div .caption {
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 0.1em;
+}
+.units {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+@-webkit-keyframes update {
+    0% { background-color: rgba(255,255,255,0.6); }
+    5% { background-color: rgba(255,255,255,1); }
+    100% { background-color: rgba(255,255,255,0.6); }
+}
+
+@keyframes update {
+    0% { background-color: rgba(255,255,255,0.6); }
+    5% { background-color: rgba(255,255,255,1); }
+    100% { background-color: rgba(255,255,255,0.6); }
+}
+.updated {
+    -webkit-animation: update 1s linear 0s 1 normal;
+    animation: update 1s linear 0s 1 normal;
+}
+
+@media screen and (min-width: 768px) { 
+    section#page {
+        width: 100%;
+        margin: 0px auto;
+        height: 100%;
+    }
+    header {
+        margin: 102px auto 30px;
+        width: 90%;
+    }
+    ul#connections {
+        width: 90%;
+        margin: 0 auto;
+        padding-bottom: 50px;
+        overflow: hidden;
+    }
+    ul#connections li {
+        width: 7%;
+        margin: 0 0.5% 10px 0.5%;
+    }
+}
+@media screen and (max-width: 768px) {
+    section#page {
+        width: 100%;
+    }
+    header h1 {
+        font-size: 2.0em;
+    }
+    header {
+        width: 90%;
+        margin: 42px auto 30px;
+    }
+    ul#connections {
+        width: 90%;
+        margin: 0 auto;
+        padding-bottom: 20px;
+        overflow: hidden;
+    }
+    ul#connections li {
+        width: 21%;
+        margin: 0 1% 10px 1%;
+    }
+    #statistics div .caption {
+        display: block;
+        margin-bottom: 5px;
+    }
+    header .buttons {
+        margin-top: 0;
+    }
+}
+@media screen and (max-width: 480px) {
+    ul#connections li {
+        width: 30%;
+        margin: 0 1% 10px 1%;
+        padding: 15px 0.5%;
+    }
+    #statistics div .caption {
+        display: block;
+    }
+    #statistics {
+        font-size: 0.8em;
+    }
+    header .buttons {
+        width: auto;
+        margin: 25px auto;
+        float: none;
+    }
+}
