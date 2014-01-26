@@ -24,5 +24,8 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
+    {ok, { {one_for_one, 5, 10}, [
+        ?CHILD(reactiv_stats_manager, worker),
+        ?CHILD(reactiv_vm_stats_emitter, worker)
+    ]} }.
 
