@@ -20,7 +20,7 @@ var Connection = React.createClass({
     
     render: function() {
         return (
-            <li className="">{sprintf("%.1f", this.props.delay)}{' '}<span className="units">ms</span></li>
+            <li className=""><article>{sprintf("%.1f", this.props.delay)}{' '}<span className="units">ms</span></article></li>
         );
     }
 });

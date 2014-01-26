@@ -20,7 +20,7 @@ var Connection = React.createClass({displayName: 'Connection',
     
     render: function() {
         return (
-            React.DOM.li( {className:""}, sprintf("%.1f", this.props.delay),' ',React.DOM.span( {className:"units"}, "ms"))
+            React.DOM.li( {className:""}, React.DOM.article(null, sprintf("%.1f", this.props.delay),' ',React.DOM.span( {className:"units"}, "ms")))
         );
     }
 });
@@ -36,20 +36,17 @@ var Statistic = React.createClass({displayName: 'Statistic',
 var Page = React.createClass({displayName: 'Page',
     getInitialState: function() {
         var delays = [];
-        // setInterval(this.tick, 100);
-        for (var i = 0; i < 100; i++) {
+        
+        for (var i = 0; i < 100; i++)
             delays[i] = Math.random() * 9;
-        }
         
         var statsWS = new WebSocket("ws://33.33.33.11:8080/stats");
         statsWS.onmessage = this.receivedStats;
         
-        return { 
-            delays: delays, 
-            stats: {
-                cpu: 0,
-                memory: 0
-            },
+        return {
+            delays: delays,
+            stats: { cpu: 0,
+                     memory: 0 },
             statsSocket: statsWS
         }
     },
