@@ -1,4 +1,4 @@
--module(reactiv_vm_stats_emitter).
+-module(reactiv_stats_emitter).
 
 -export([start_link/0, loop/0]).
 
