@@ -1,29 +1,53 @@
 /** @jsx React.DOM */
-var addr = "ws://33.33.33.11:8080/stats";
+
+var addr = "ws://33.33.33.11:8080/";
+var numConnections = 50;
+
 var Connection = React.createClass({
     getInitialState: function () {
-        return { delay: this.props.delay, updated: false };
-    },
-    componentWillReceiveProps: function (newProps) {
-        return this.setState({ delay: newProps.delay, updated: newProps.delay != this.props.delay });
-    },
-    shouldComponentUpdate: function (newProps, newState) {
-        return newState.updated;
+        return { 
+            delay: parseFloat(this.props.delay),
+            posted: [],
+            id: this.props.key,
+            received: false,
+            open: false
+        };
     },
     componentDidUpdate: function () {
-        if (this.state.updated) {
+        if (this.state.received) {
             var node = this.getDOMNode();
             node.className = '';
-            setTimeout(function () { node.className = 'updated'; }, 1);
+            setTimeout(function () { node.className = 'received'; }, 1);
         }
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return  nextState.received != this.state.received ||
+                nextState.delay != this.state.delay ||
+                nextState.open != this.state.open;
+    },
+    receivedMessage: function(delay) {
+        if (!!delay) {
+            this.setState({ delay: delay, received: true });
+        } else {
+            this.state.received = true;
+            this.forceUpdate();
+        }
+    },
+    socketStateChanged: function (open) {
+        this.setState({ received: false, open: open });
     },
     
     render: function() {
+        var styles = React.addons.classSet({ down: !this.state.open });
         return (
-            <li><article>{sprintf("%.1f", this.props.delay)}{' '}<span className="units">ms</span></article></li>
+            <li className={styles} onClick={this.props.callback}><article>
+                {sprintf("%d", this.state.delay)}{' '}
+                <span className="units">ms</span>
+            </article></li>
         );
     }
 });
+
 var Statistic = React.createClass({
     getInitialState: function () {
         values = [];
@@ -42,7 +66,6 @@ var Statistic = React.createClass({
             if (max > this.props.scale) {
                 this.setState({scale: max * 2});
             }
-            console.log("Scale ", max, this.state.scale)
             
             return this.setState({dt: newProps.dt});
         }
@@ -50,6 +73,7 @@ var Statistic = React.createClass({
     
     render: function() {
         var scale = this.state.scale;
+        console.log(this.props.value);
         return (<article className="statistic">
             <section className="graph">{
                 this.state.values.map(function (value) {
@@ -71,24 +95,49 @@ var Statistic = React.createClass({
 
 var Page = React.createClass({
     getInitialState: function() {
-        var delays = [];
+        var statsWS = new WebSocket(addr+"stats");
         
-        for (var i = 0; i < 100; i++)
-            delays[i] = Math.random() * 9;
-        
-        var statsWS = new WebSocket(addr);
         statsWS.onmessage = this.receivedStats;
+        statsWS.onclose = this.socketChangedState;
+        statsWS.onopen = this.socketChangedState;
+        var children = [];
+        for (var i = 0; i < numConnections; i++) {
+            children.push(Math.random()*100);
+        }
         
+        var connector = new  Worker('js/worker.js');
+        connector.postMessage({url: addr, keys: children});
+        connector.onmessage = this.receivedMessage;
+        
+        setInterval(this.tick, 500);
         return {
-            delays: delays,
             stats: { cpu:       [0, 0],
                      memory:    [0, 0],
                      conn:      [0, 0], 
                      delay:     [0, 0] },
                      
-            statsSocket: statsWS
+            children: children,
+            statsSocket: statsWS,
+            connector: connector
         }
     },
+    
+    socketChangedState: function() {
+        if (this.state.statsSocket.readyState == 1) {
+            document.getElementsByTagName('body')[0].className = '';
+        } else {
+            document.getElementsByTagName('body')[0].className = 'down';
+            setTimeout(this.reconnect, 300);
+        }
+    },
+    reconnect: function () {
+        var statsWS = new WebSocket(addr+"stats");
+        statsWS.onmessage = this.receivedStats;
+        statsWS.onclose = this.socketChangedState;
+        statsWS.onopen = this.socketChangedState;
+        this.setState({statsSocket: statsWS});
+    },
+    
     receivedStats: function (msg) {
         var stats = JSON.parse(msg.data);
         if (stats.stat_name == 'memory') {
@@ -100,12 +149,25 @@ var Page = React.createClass({
         } else if (stats.stat_name == 'connection_count') {
             this.state.stats.conn = [Date.now(), stats.value];
             this.setState({});
+        } else if (stats.stat_name == 'message_delay') {
+            this.state.stats.delay = [Date.now(), sprintf("%.2f", stats.value)];
+            this.setState({});
         }
     },
+    receivedMessage: function(event) {
+        var key, method;
+        if (!!(key = event.data.connection) && 
+            !!(method = this.refs[key][event.data.method])) {
+            method.apply(this.refs[key], event.data.args);
+        }
+    },
+    
+    clickedConnection: function(key) {
+        this.state.connector.postMessage({post: key});
+    },
     tick: function() {
-        var i = Math.floor((Math.random() * 99.9));
-        this.state.delays[i] = Math.random() * 9;
-        this.setState({});
+        var randomKey = this.state.children[Math.floor(Math.random() * (this.state.children.length - 1))];
+        this.clickedConnection(randomKey);
     },
     sendCrash: function(event) {
         
@@ -114,9 +176,9 @@ var Page = React.createClass({
         
     },
     render: function() {
+        var self = this;
         return (
             <section id="page">
-            
                 <header>
                     <div className="buttons">
                         <a className="button" href="#" onClick={ this.sendCrash }>Crash!</a>
@@ -124,7 +186,7 @@ var Page = React.createClass({
                     </div>
                     <h1><strong>OpenCode</strong> Réactif</h1>
                     <div id="statistics">
-                        <Statistic caption="Mém" scale="100" 
+                        <Statistic caption="Mém" scale="40" 
                             dt={ this.state.stats.memory[0] } 
                             value={ this.state.stats.memory[1] } 
                             units="MB" />
@@ -134,7 +196,7 @@ var Page = React.createClass({
                             value={ this.state.stats.cpu[1] } 
                             units="%" />
                         
-                        <Statistic caption="Delai" scale="100"
+                        <Statistic caption="Delai" scale="20"
                             dt={ this.state.stats.delay[0] } 
                             value={ this.state.stats.delay[1] } 
                             units="ms" />
@@ -145,10 +207,10 @@ var Page = React.createClass({
                             units="" />
                     </div>
                 </header>
-                
-                <ul id="connections">
-                {this.state.delays.map(function(delay) { 
-                    return <Connection delay={delay} /> 
+                <ul id="connections">{this.state.children.map(function(key) {
+                    return <Connection delay="0" 
+                                callback={self.clickedConnection.bind(self, key)} 
+                                key={key} ref={key} />
                 })}</ul>
             </section>
         );

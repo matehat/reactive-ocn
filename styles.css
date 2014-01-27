@@ -28,6 +28,10 @@ html, body {
     
     background-image: -webkit-linear-gradient(top left, rgba(185,255,185,0.2), rgba(0,0,0,0.1));
     
+    background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(185,255,185,0.15)), to(rgba(0,0,0,0.1)));
+    
+    background-image: -webkit-linear-gradient(top left, rgba(185,255,185,0.15), rgba(0,0,0,0.1));
+    
     background-image: linear-gradient(to bottom right,
         rgba(185,255,185,0.15), rgba(0,0,0,0.1));
     
@@ -55,7 +59,9 @@ html, body {
     position: relative;
 }
 
-body.animated { background-color: rgba(65,14,6,1); }
+body.down { 
+    background-color: rgba(65,14,6,1); 
+}
 
 h1 {
     font-size: 3.0em;
@@ -65,8 +71,8 @@ header h1 {
     font-weight: 100;
     letter-spacing: 0.1em;
     color: white;
-    margin-bottom: 20px;
-    /*border-bottom: 1px solid rgba(255,255,255,0.15);*/
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 header h1 strong {
     text-transform: uppercase;
@@ -110,6 +116,9 @@ ul#connections li:active article {
     
     transition-property: background-color;
 }
+ul#connections li.down article {
+    opacity: 0.3;
+}
 
 a {
     color: white;
@@ -150,13 +159,17 @@ header #statistics {
 header #statistics article {
     overflow: hidden;
     float: left;
+    position: relative;
 }
 header #statistics article section.value {
     text-align: right;
     color: white;
     font-size: 1.5em;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    position: absolute;
+    width: 90%;
+    bottom: 0;
+    padding: 0 5% 10px 5%;
 }
 header #statistics article .caption {
     text-transform: uppercase;
@@ -171,6 +184,8 @@ header #statistics article section.graph {
 }
 header #statistics article section.graph div {
     float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-left: 1px solid transparent;
     width: 8.3%;
@@ -179,7 +194,13 @@ header #statistics article section.graph div span {
     display: block;
     height: 100%;
     width: 100%;
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(255,255,255,0.05);
+    
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.07)), to(rgba(0,0,0,0)));
+    
+    background-image: -webkit-linear-gradient(rgba(255,255,255,0.07), rgba(0,0,0,0));
+    
+    background-image: linear-gradient(rgba(255,255,255,0.07), rgba(0,0,0,0));
 }
 .units {
     font-size: 0.8em;
@@ -197,12 +218,12 @@ header #statistics article section.graph div span {
     5% { background-color: rgba(255,255,255,1); }
     100% { background-color: rgba(255,255,255,0.6); }
 }
-.updated article {
-    -webkit-animation: update 1s linear 0s 1 normal;
-    animation: update 1s linear 0s 1 normal;
+.received:not(.down) article {
+    -webkit-animation: update 0.75s linear 0s 1 normal;
+    animation: update 0.75s linear 0s 1 normal;
 }
 
-@media screen and (min-width: 768px) { 
+@media screen and (min-width: 960px) { 
     section#page {
         width: 100%;
         margin: 0px auto;
@@ -235,7 +256,7 @@ header #statistics article section.graph div span {
         width: 10%;
     }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 960px) {
     section#page {
         width: 100%;
     }
@@ -269,6 +290,10 @@ header #statistics article section.graph div span {
     }
     #statistics {
         font-size: 0.8em;
+    }
+    #statistics article {
+        width: 100%;
+        margin: 5px 0;
     }
     header .buttons {
         width: auto;
