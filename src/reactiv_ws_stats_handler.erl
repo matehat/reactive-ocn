@@ -26,8 +26,11 @@ websocket_info({stat, {cpu, StatValue}}, Req, State) ->
 websocket_info({stat, {memory, StatValue}}, Req, State) ->
     {reply, send_to_client(memory, StatValue), Req, State};
     
-websocket_info({stat, {num_conn, StatValue}}, Req, State) ->
-    {reply, send_to_client(num_conn, StatValue), Req, State};
+websocket_info({stat, {connection_count, StatValue}}, Req, State) ->
+    {reply, send_to_client(connection_count, StatValue), Req, State};
+
+websocket_info({stat, {message_delay, StatValue}}, Req, State) ->
+    {reply, send_to_client(message_delay, StatValue), Req, State};
 
 websocket_info(_Info, Req, State) ->
     {ok, Req, State}.

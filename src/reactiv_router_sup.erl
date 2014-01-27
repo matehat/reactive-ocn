@@ -1,5 +1,4 @@
-
--module(reactiv_sup).
+-module(reactiv_router_sup).
 
 -behaviour(supervisor).
 
@@ -7,10 +6,10 @@
 -export([start_link/0]).
 
 %% Supervisor callbacks
--export([init/1]).
+-export([init/1, start_router/0]).
 
 %% Helper macro for declaring children of supervisor
--define(CHILD(I, Type, Args), {I, {I, start_link, Args}, permanent, 5000, Type, [I]}).
+-define(CHILD(I), {I, {I, start_link, [false]}, temporary, 5000, worker, [I]}).
 
 %% ===================================================================
 %% API functions
@@ -19,15 +18,13 @@
 start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
+start_router() ->
+    supervisor:start_child(?MODULE, []).
+
 %% ===================================================================
 %% Supervisor callbacks
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, [
-        ?CHILD(reactiv_stats_manager, worker, []),
-        ?CHILD(reactiv_vm_stats_emitter, worker, []),
-        ?CHILD(reactiv_router_sup, supervisor, []),
-        ?CHILD(reactiv_router, worker, [true])
-    ]} }.
+    {ok, { {simple_one_for_one, 5, 10}, [ ?CHILD(reactiv_router) ]} }.
 

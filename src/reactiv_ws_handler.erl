@@ -9,37 +9,47 @@
  
  
  
-init({tcp, http}, Req, Opts) ->
+init({tcp, http}, _Req, _Opts) ->
+    folsom_metrics:notify({connection_count, {inc, 1}}),
     {upgrade, protocol, cowboy_websocket}.
- 
- 
- 
- 
-websocket_init(TransportName, Req, _Opts) ->
-    erlang:start_timer(1000, self(), <<"Hello!">>),
-    {ok, Req, undefined_state}.
- 
- 
- 
- 
-websocket_handle({text, Msg}, Req, State) ->
-    {reply, {text, << "That's what she said! ", Msg/binary >>}, Req, State};
+
+
+
+
+websocket_init(_TransportName, Req, _Opts) ->
+    {DiscriminantBin, _} = cowboy_req:qs_val(<<"d">>, Req),
+    Discriminant = binary_to_float(DiscriminantBin),
+    reactiv_router:new_recipient(Discriminant),
+    {ok, Req, {id, Discriminant}}.
+
+
+
+
+websocket_handle({text, Msg}, Req, State={id, Discriminant}) ->
+    case jiffy:decode(Msg) of
+        {[{<<"delay">>, Delay}]} ->
+            % io:format("Delay: ~w~n", [Delay]),
+            folsom_metrics:notify({message_delay, Delay});
+        {[{<<"post">>, Token }]} ->
+            reactiv_router:post(Discriminant, Token)
+    end,
+    {ok, Req, State};
 
 websocket_handle(_Data, Req, State) ->
     {ok, Req, State}.
- 
- 
- 
- 
-websocket_info({timeout, _Ref, Msg}, Req, State) ->
-    erlang:start_timer(1000, self(), <<"Hey you!?">>),
-    {reply, {text, Msg}, Req, State};
 
+
+
+
+websocket_info({event, Msg}, Req, State) ->
+    {reply, {text, jiffy:encode({[{<<"event">>, Msg}]})}, Req, State};
 websocket_info(_Info, Req, State) ->
     {ok, Req, State}.
- 
- 
- 
- 
-websocket_terminate(_Reason, _Req, _State) ->
+
+
+
+
+websocket_terminate(_Reason, _Req, {id, Discriminant}) ->
+    folsom_metrics:notify({connection_count, {dec, 1}}),
+    reactiv_router:remove_recipient(Discriminant),
     ok.
