@@ -2,10 +2,11 @@
 -behaviour(gen_fsm).
 
 -export([start_link/1, 
-         new_recipient/1,
-         remove_recipient/1,
-         post/2, 
-         trace/0]).
+         new_recipient/1, new_recipient/2,
+         remove_recipient/1, remove_recipient/3,
+         get_count/1,
+         post/2, post/3,
+         trace/0, trace/1]).
 
 -export([init/1,
          pending/2, pending/3,
@@ -157,7 +158,7 @@ node({post, Discriminant, Token}, State=#state{children=Children, median=Median}
 
 node(Recipient=#recipient{discriminant=Discriminant}, 
      State=#state{recipients=RecipientCount, children=Children, median=Median}) ->
-    new_recipient(?SELECT_CHILD(Children, Median, Discriminant), Recipient),
+    ?MODULE:new_recipient(?SELECT_CHILD(Children, Median, Discriminant), Recipient),
     {next_state, node, State#state{ recipients = RecipientCount+1 }}.
 
 
@@ -209,14 +210,14 @@ handle_info({'EXIT', From, Reason}, leaf, State=#state{recipients=Recipients}) -
 handle_info({'EXIT', Child, Reason}, node, State=#state{children=[Child, OtherChild]}) ->
     { ok, NewChild } = reactiv_router_sup:start_router(),
     link(NewChild),
-    RecipientCount = get_count(OtherChild),
+    RecipientCount = ?MODULE:get_count(OtherChild),
     ok = gen_fsm:sync_send_event(NewChild, {recipients, []}),
     {next_state, node, State#state{recipients=RecipientCount, children=[NewChild, OtherChild]}};
 
 handle_info({'EXIT', Child, Reason}, node, State=#state{children=[OtherChild, Child]}) ->
     { ok, NewChild } = reactiv_router_sup:start_router(),
     link(NewChild),
-    RecipientCount = get_count(OtherChild),
+    RecipientCount = ?MODULE:get_count(OtherChild),
     ok = gen_fsm:sync_send_event(NewChild, {recipients, []}),
     {next_state, node, State#state{recipients=RecipientCount, children=[OtherChild, NewChild]}};
 
