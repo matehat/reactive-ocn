@@ -18,7 +18,7 @@ start(_StartType, _StartArgs) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/stats", reactiv_ws_stats_handler, []},
-            {"/chat", reactiv_ws_handler, []}
+            {"/chat", reactiv_ws_chat_handler, []}
         ]}
     ]),
     {ok, _} = cowboy:start_http(http, 500, [{port, 8080}],

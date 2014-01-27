@@ -1,4 +1,4 @@
--module(reactiv_ws_handler).
+-module(reactiv_ws_chat_handler).
 -behaviour(cowboy_websocket_handler).
  
 -export([init/3,
