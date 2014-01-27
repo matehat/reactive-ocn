@@ -12,7 +12,7 @@ Trois branches sont actives pour ce project:
 ## Rouler le tout!
 
 * Clonez le présent dépôt
-* Ayez [Vagrant] et [VirtualBox] installé
+* Ayez [Vagrant][1] et [VirtualBox][2] installé
 * `bundle install`
 * `berks install`
 * `vagrant up [erlang | node]` pour rouler le serveur que vous voulez. Omettez l'option pour démarrer les deux.
