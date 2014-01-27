@@ -1,0 +1,9 @@
+[submodule "node"]
+	path = node
+	url = git@github.com:matehat/reactive-ocn.git
+[submodule "web"]
+	path = web
+	url = git@github.com:matehat/reactive-ocn.git
+[submodule "erlang"]
+	path = erlang
+	url = git@github.com:matehat/reactive-ocn.git
