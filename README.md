@@ -16,3 +16,6 @@ Trois branches sont actives pour ce project:
 * `bundle install`
 * `berks install`
 * `vagrant up [erlang | node]` pour rouler le serveur que vous voulez. Omettez l'option pour démarrer les deux.
+
+[1]: http://vagrantup.com
+[2]: http://virtualbox.org
