@@ -28,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   
   config.vm.define "nodejs" do |nd|
-    nd.omnibus.chef_version = '10.14.4'
+    nd.omnibus.chef_version = '10.16'
     nd.vm.network :forwarded_port, host: 8090, guest: 8090
     nd.vm.provision :chef_solo do |chef|
       chef.provisioning_path = "/tmp/vagrant-chef-solo"
