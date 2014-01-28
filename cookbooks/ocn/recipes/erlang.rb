@@ -1,3 +1,5 @@
 include_recipe 'erlang'
+include_recipe 'runit'
 include_recipe 'git'
 include_recipe 'build-essential'
+include_recipe 'ocn::fileno'

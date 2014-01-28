@@ -3,7 +3,9 @@
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
+
 Vagrant.require_plugin "vagrant-berkshelf"
+Vagrant.require_plugin "vagrant-omnibus"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -14,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.omnibus.chef_version = :latest
   
   config.vm.define "erlang" do |erl|
     erl.vm.network :forwarded_port, host: 8080, guest: 8080
@@ -23,7 +26,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe 'ocn::erlang'
     end
   end
-
+  
+  config.vm.define "nodejs" do |nd|
+    nd.omnibus.chef_version = '10.14.4'
+    nd.vm.network :forwarded_port, host: 8090, guest: 8090
+    nd.vm.provision :chef_solo do |chef|
+      chef.provisioning_path = "/tmp/vagrant-chef-solo"
+      chef.file_cache_path = chef.provisioning_path
+      chef.add_recipe 'ocn::nodejs'
+    end
+  end
+  
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   # config.vm.box_url = "http://domain.com/path/to/above.box"
