@@ -172,6 +172,7 @@ var Page = React.createClass({
     sendCrash: function(event) {
         var randomKey = this.state.children[Math.floor(Math.random() * (this.state.children.length - 1))];
         this.state.connector.postMessage({raw: "malformed!", key: randomKey});
+        event.preventDefault();
     },
     environment: function () {
         return window.location.pathname.indexOf('/node.html') != -1 ? 'Node' : 'Erlang';
