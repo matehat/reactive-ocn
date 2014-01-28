@@ -194,6 +194,8 @@ var Page = React.createClass({displayName: 'Page',
             React.DOM.section( {id:"page"}, 
                 React.DOM.header(null, 
                     React.DOM.div( {className:"buttons"}, 
+                        React.DOM.a( {className:"button github", href:"https://github.com/matehat/reactive-ocn"}, 
+                        React.DOM.img( {src:"github.png", title:"Voir sur Github", alt:"github"} )),
                         React.DOM.a( {className:"button", href:"#", onClick: this.sendCrash }, "Crash!"),
                         React.DOM.a( {className:"button switch", href:"#", onClick: this.switchEnvironment },  this.environment() )
                     ),

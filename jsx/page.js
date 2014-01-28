@@ -194,6 +194,8 @@ var Page = React.createClass({
             <section id="page">
                 <header>
                     <div className="buttons">
+                        <a className="button github" href="https://github.com/matehat/reactive-ocn">
+                        <img src="github.png" title="Voir sur Github" alt="github" /></a>
                         <a className="button" href="#" onClick={ this.sendCrash }>Crash!</a>
                         <a className="button switch" href="#" onClick={ this.switchEnvironment }>{ this.environment() }</a>
                     </div>
