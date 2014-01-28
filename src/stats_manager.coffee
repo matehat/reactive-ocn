@@ -1,6 +1,7 @@
 {Histogram, Counter} = require 'metrics'
 StatEmitter = require './stats_emitter'
 
+WS_OPEN = 1
 sockets = []
 module.exports =
   addListener: (ws) ->
@@ -10,13 +11,19 @@ module.exports =
     
     sockets.push ws
   
-  addConnection: -> connections.source.inc 1
-  removeConnection: -> connections.source.dec 1
+  addConnection: (ws) -> 
+    connections.source.inc 1
+    ws.on 'close', -> connections.source.dec 1
+  
+  recordDelay: (delay) ->
+    delays.source.update delay
 
 emit = ->
   return unless sockets.length > 0
   stats = [ delays(), connections(), cpu(), memory() ]
-  ws.send stat for stat in stats for ws in sockets
+  for ws in sockets when ws.readyState == WS_OPEN
+    ws.send stat for stat in stats 
+  
   null
 
 setInterval emit, 1000
