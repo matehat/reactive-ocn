@@ -17,5 +17,25 @@ Trois branches sont actives pour ce project:
 * `berks install`
 * `vagrant up [erlang | node]` pour rouler le serveur que vous voulez. Omettez l'option pour démarrer les deux.
 
+### Volume de code
+
+```
+• ~/development/opencode [git:chef+] → cloc node/{src,lib} erlang/src
+      17 text files.
+      17 unique files.                              
+       1 file ignored.
+
+http://cloc.sourceforge.net v 1.58  T=0.5 s (32.0 files/s, 1876.0 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Erlang                           8            155             33            300
+Javascript                       4             33              0            248
+CoffeeScript                     4             37              0            132
+-------------------------------------------------------------------------------
+SUM:                            16            225             33            680
+-------------------------------------------------------------------------------
+```
+
 [1]: http://vagrantup.com
 [2]: http://virtualbox.org
