@@ -3,7 +3,7 @@ include_recipe 'nodejs'
 include_recipe 'ocn::fileno'
 
 bash "npm install" do
-  user "vagrant"
+  user "root"
   cwd "/vagrant/node"
   code "npm install"
   not_if { ::File.exists?("/vagrant/node/node_modules")}
