@@ -12,7 +12,7 @@ router =
     '/stats': (ws) -> 
       StatsManager.addListener ws
 
-(wss = new Server port: 8080).on 'connection', (ws) ->
+(wss = new Server port: 8090).on 'connection', (ws) ->
     request = url.parse ws.upgradeReq.url, true
     if (route = router[request.pathname])?
         route ws, request
