@@ -177,10 +177,15 @@ var Page = React.createClass({displayName: 'Page',
         return window.location.pathname.indexOf('/node.html') != -1 ? 'Node' : 'Erlang';
     },
     switchEnvironment: function(event) {
+        var address = window.location.href;
         if (this.environment() == 'Erlang') {
-            window.location = window.location.href.replace('index.html', 'node.html');
+            if (address.indexOf('index.html') != -1) {
+                window.location = address.replace('index.html', 'node.html');
+            } else {
+                window.location = address + 'node.html'
+            }
         } else {
-            window.location = window.location.href.replace('node.html', 'index.html');
+            window.location = address.replace('node.html', 'index.html');
         };
     },
     render: function() {
