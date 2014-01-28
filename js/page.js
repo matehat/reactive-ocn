@@ -195,7 +195,7 @@ var Page = React.createClass({displayName: 'Page',
                 React.DOM.header(null, 
                     React.DOM.div( {className:"buttons"}, 
                         React.DOM.a( {className:"button", href:"#", onClick: this.sendCrash }, "Crash!"),
-                        React.DOM.a( {className:"button", href:"#", onClick: this.switchEnvironment },  this.environment() )
+                        React.DOM.a( {className:"button switch", href:"#", onClick: this.switchEnvironment },  this.environment() )
                     ),
                     React.DOM.h1(null, React.DOM.strong(null, "OpenCode"), " Réactif"),
                     React.DOM.div( {id:"statistics"}, 
