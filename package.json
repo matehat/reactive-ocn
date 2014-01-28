@@ -5,6 +5,7 @@
     "main": "index.js",
     "dependencies": {
         "ws": "*",
+        "uuid": "*",
         "metrics": "*",
         "pqueue": "*"
     }
