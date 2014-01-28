@@ -37,16 +37,23 @@ function close(key) {
 }
 
 onmessage = function (event) {
-    var key;
-    if (!!event.data.url) {
+    var key, raw;
+    if (event.data.url != null) {
         url = event.data.url;
         event.data.keys.forEach(connect);
-    } else if (!!(key = event.data.post)) {
+    } else if ((key = event.data.post) != null) {
         var ws = connections[key.toString()];
         if (ws.readyState == 1) {
             var ts = Date.now();
             ws.send(JSON.stringify({post: ts}));
             timestamps[ts.toString()] = key;
+        }
+    } else if ((raw = event.data.raw) != null &&
+               (key = event.data.key)) {
+                  
+        var ws = connections[key.toString()];
+        if (ws.readyState == 1) {
+            ws.send(raw);
         }
     }
 }

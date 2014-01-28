@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 
-var addr = "ws://33.33.33.11:8080/";
-var numConnections = 50;
+// var addr = "ws://33.33.33.11:8080/";
+// var addr = "ws://storm-dev.storm.io:8080/";
+var numConnections = 100;
 
 var Connection = React.createClass({
     getInitialState: function () {
@@ -73,7 +74,6 @@ var Statistic = React.createClass({
     
     render: function() {
         var scale = this.state.scale;
-        console.log(this.props.value);
         return (<article className="statistic">
             <section className="graph">{
                 this.state.values.map(function (value) {
@@ -95,7 +95,7 @@ var Statistic = React.createClass({
 
 var Page = React.createClass({
     getInitialState: function() {
-        var statsWS = new WebSocket(addr+"stats");
+        var statsWS = new WebSocket(serverAddress+"stats");
         
         statsWS.onmessage = this.receivedStats;
         statsWS.onclose = this.socketChangedState;
@@ -106,7 +106,7 @@ var Page = React.createClass({
         }
         
         var connector = new  Worker('js/worker.js');
-        connector.postMessage({url: addr, keys: children});
+        connector.postMessage({url: serverAddress, keys: children});
         connector.onmessage = this.receivedMessage;
         
         setInterval(this.tick, 500);
@@ -131,7 +131,7 @@ var Page = React.createClass({
         }
     },
     reconnect: function () {
-        var statsWS = new WebSocket(addr+"stats");
+        var statsWS = new WebSocket(serverAddress+"stats");
         statsWS.onmessage = this.receivedStats;
         statsWS.onclose = this.socketChangedState;
         statsWS.onopen = this.socketChangedState;
@@ -170,10 +170,14 @@ var Page = React.createClass({
         this.clickedConnection(randomKey);
     },
     sendCrash: function(event) {
-        
+        var randomKey = this.state.children[Math.floor(Math.random() * (this.state.children.length - 1))];
+        this.state.connector.postMessage({raw: "malformed!", key: randomKey});
+    },
+    environment: function () {
+        return (window.location.pathname == '/node.html') ? 'Node' : 'Erlang';
     },
     switchEnvironment: function(event) {
-        
+        window.location = this.environment() == 'Erlang' ? '/node.html' : '/index.html';
     },
     render: function() {
         var self = this;
@@ -182,7 +186,7 @@ var Page = React.createClass({
                 <header>
                     <div className="buttons">
                         <a className="button" href="#" onClick={ this.sendCrash }>Crash!</a>
-                        <a className="button" href="#" onClick={ this.switchEnvironment }>Erlang</a>
+                        <a className="button" href="#" onClick={ this.switchEnvironment }>{ this.environment() }</a>
                     </div>
                     <h1><strong>OpenCode</strong> Réactif</h1>
                     <div id="statistics">
