@@ -148,7 +148,7 @@ a.button:active {
 }
 a.button img {
     max-height: 16px;
-    vertical-align: text-bottom;
+    vertical-align: 0;
 }
 
 header .buttons {
@@ -159,7 +159,9 @@ header .buttons .button {
     margin-right: 10px;
 }
 header .buttons .button.github {
-    padding: 7px;
+    padding: 6px;
+    position: relative;
+    top: 1px;
 }
 header .buttons .button:last-child {
     margin-right: 0px;
@@ -312,6 +314,9 @@ header #statistics article section.graph div span {
     #statistics article {
         width: 100%;
         margin: 5px 0;
+    }
+    header h1 {
+        text-align: center;
     }
     header .buttons {
         width: auto;
