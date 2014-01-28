@@ -3,6 +3,7 @@
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
+Vagrant.require_plugin "vagrant-berkshelf"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -15,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   
   config.vm.define "erlang" do |erl|
-    erl.vm.network :private_network, ip: "33.33.33.11"
+    erl.vm.network :forwarded_port, host: 8080, guest: 8080
     erl.vm.provision :chef_solo do |chef|
       chef.provisioning_path = "/tmp/vagrant-chef-solo"
       chef.file_cache_path = chef.provisioning_path
