@@ -26,12 +26,13 @@ websocket_init(_TransportName, Req, _Opts) ->
 
 
 websocket_handle({text, Msg}, Req, State={id, Discriminant}) ->
-    case jiffy:decode(Msg) of
+    try jiffy:decode(Msg) of
         {[{<<"delay">>, Delay}]} ->
-            % io:format("Delay: ~w~n", [Delay]),
             folsom_metrics:notify({message_delay, Delay});
         {[{<<"post">>, Token }]} ->
             reactiv_router:post(Discriminant, Token)
+    catch
+        throw:{error, Error} -> ok
     end,
     {ok, Req, State};
 
