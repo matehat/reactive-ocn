@@ -98,7 +98,7 @@ ul#connections li {
 }
 ul#connections li article {
     padding: 20px 10px;
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.4);
     border-radius: 4px;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
@@ -108,7 +108,7 @@ ul#connections li article {
     text-align: center;
 }
 ul#connections li:active article {
-    background-color: white;
+    background-color: rgba(255,255,255,0.8);;
     -webkit-transition-duration: 0.07s;
     transition-duration: 0.07s;
 
@@ -117,7 +117,7 @@ ul#connections li:active article {
     transition-property: background-color;
 }
 ul#connections li.down article {
-    opacity: 0.3;
+    opacity: 0.1;
 }
 
 a {
@@ -129,14 +129,18 @@ a {
     letter-spacing: 0.1em;
 }
 a.button {
-    border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.5);
+/*    border-radius: 4px;*/
+    border: 1px solid rgba(255,255,255,0.2);
+    border-bottom-color: rgba(132,132,132,0.2);
+    border-right-color: rgba(132,132,132,0.2);
     background-color: rgba(255,255,255,0.15);
     padding: 7px 10px;
     display: inline-block;
+    text-shadow: 1px 1px rgba(30,30,30,0.5);
+    color: rgba(255,255,255,0.8);
 }
 a.button:hover {
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.25);
 }
 a.button:active {
     background-color: rgba(255,255,255,0.5);
@@ -208,19 +212,23 @@ header #statistics article section.graph div span {
 }
 
 @-webkit-keyframes update {
-    0% { background-color: rgba(255,255,255,0.6); }
-    5% { background-color: rgba(255,255,255,1); }
-    100% { background-color: rgba(255,255,255,0.6); }
+    0% { background-color: rgba(255,255,255,0.4); }
+    5% { background-color: rgba(255,255,255,0.7); }
+    50% { background-color: rgba(255,255,255,0.7); }
+    55% { background-color: rgba(255,255,255,0.4); }
+    100% { background-color: rgba(255,255,255,0.4); }
 }
 
 @keyframes update {
-    0% { background-color: rgba(255,255,255,0.6); }
-    5% { background-color: rgba(255,255,255,1); }
-    100% { background-color: rgba(255,255,255,0.6); }
+    0% { background-color: rgba(255,255,255,0.4); }
+    5% { background-color: rgba(255,255,255,0.7); }
+    50% { background-color: rgba(255,255,255,0.5); }
+    55% { background-color: rgba(255,255,255,0.4); }
+    100% { background-color: rgba(255,255,255,0.4); }
 }
 .received:not(.down) article {
-    -webkit-animation: update 0.75s linear 0s 1 normal;
-    animation: update 0.75s linear 0s 1 normal;
+    -webkit-animation: update 0.5s linear 0s 1 normal;
+    animation: update 0.5s linear 0s 1 normal;
 }
 
 @media screen and (min-width: 960px) { 
