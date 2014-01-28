@@ -4,7 +4,7 @@ include_recipe 'ocn::fileno'
 
 bash "npm install" do
   user "vagrant"
-  cwd "/vagrant/erlang"
+  cwd "/vagrant/node"
   code "npm install"
   not_if { ::File.exists?("/vagrant/node/node_modules")}
 end
