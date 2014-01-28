@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 // var addr = "ws://33.33.33.11:8080/";
-// var addr = "ws://storm-dev.storm.io:8080/";
+// var addr = ;
 var numConnections = 100;
 
 var Connection = React.createClass({
@@ -174,10 +174,14 @@ var Page = React.createClass({
         this.state.connector.postMessage({raw: "malformed!", key: randomKey});
     },
     environment: function () {
-        return (window.location.pathname == '/node.html') ? 'Node' : 'Erlang';
+        return window.location.pathname.indexOf('/node.html') != -1 ? 'Node' : 'Erlang';
     },
     switchEnvironment: function(event) {
-        window.location = this.environment() == 'Erlang' ? '/node.html' : '/index.html';
+        if (this.environment() == 'Erlang') {
+            window.location = window.location.href.replace('index.html', 'node.html');
+        } else {
+            window.location = window.location.href.replace('node.html', 'index.html');
+        };
     },
     render: function() {
         var self = this;
